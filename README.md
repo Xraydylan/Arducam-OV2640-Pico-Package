@@ -2,14 +2,13 @@
 
 This is a Software package for the Rasperry Pi Pico and Arducam OV2640 to take pictures and send them via Serial to a Python script.
 
-***
 ## Table of contents
 - [Description](#Description)
 - [Installation](#Installation)
 - [Functionality](#Functionality)
 - [Usage](#Usage)
 - [License](#License)
-***
+
 ## Description
 This package is supposed to be a simple solution for taking pictures with the Arducam OV2640 connected to a Raspberry Pi Pico and sending the images to a PC with a Serial connection.
 
@@ -35,12 +34,11 @@ In the future following can be integrated:
 - Wider range of changeable camera settings
 - Support for Arducam OV5642
 
-***
 ## Installation
 For the setup of the Raspberry Pi Pico follow the instructions in the [REAM.me][Pico readme] in the Pico folder.
 
 The actual Arducam2640 package can be placed into the working directory or added to path and then regularly imported.
-***
+
 ##Functionality
 ### Camera Functions
 - Capture images
@@ -70,13 +68,12 @@ The actual Arducam2640 package can be placed into the working directory or added
 - convert byte array to JPEG
 - convert byte array to YUV (YUV422, with pattern 'YUYV')
 - convert YUV pixel to RGB pixel
-***
+
 ## Usage
 
 
 
 
-***
 ## License
 Code released under the [MIT License](https://github.com/twbs/bootstrap/blob/main/LICENSE). Docs released under [Creative Commons](https://creativecommons.org/licenses/by/3.0/).
 ***
