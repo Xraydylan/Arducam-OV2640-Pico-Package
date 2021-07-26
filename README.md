@@ -47,3 +47,10 @@ How to set up the Raspberry Pi Pico is described in the READ.ME in the "Pico" fo
 - convert byte array to JPEG
 - convert byte array to YUV (YUV422, with pattern 'YUYV')
 - convert YUV pixel to RGB pixel
+***
+## Not (yet) implemented
+- Continuous streaming mode 
+
+***
+Note:This is the fist thing I actually intend to be publicly available and useful.
+Constructing criticism and tips are much appreciated.
