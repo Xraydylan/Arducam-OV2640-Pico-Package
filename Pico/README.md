@@ -1,13 +1,12 @@
 # Code for the Raspberry Pico
-
-The code basis was used from: https://github.com/ArduCAM/PICO_SPI_CAM
-
-The YUV functionality (initialization) was taken from: https://github.com/ArduCAM/RPI-Pico-Cam
+Existing code adapted from the project of the [Arducam][arducam main] main GitHub repo.
+The main Pico code stems from the [PICO_SPI_CAM][arducam base] Example. 
+Capability for YUV was adapted from the [PICO Arducam][arducam YUV] Example.
 
 ## Wiring 
-![Wiring](Pico_Arducam_Wiring.png)
+![wiring]
 Wiring for the PICO, Arducam, and USB-Serial adapter
-(Image source: https://github.com/ArduCAM/RPI-Pico-Cam)
+(Image source: [PICO_SPI_CAM][arducam base])
 
 ## Preparation
 
@@ -22,3 +21,7 @@ To power the PICO any method can be used.
 These include:
 - power via Micro-USB
 - 5V power via pin 40 (This can be supplied with the USB-Serial adapter)
+
+[wiring]: ../img/Pico_Arducam_Wiring.png
+[arducam base]: https://github.com/ArduCAM/PICO_SPI_CAM
+[arducam YUV]: https://github.com/ArduCAM/RPI-Pico-Cam
