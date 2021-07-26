@@ -39,7 +39,8 @@ For the setup of the Raspberry Pi Pico follow the instructions in the [REAM.me][
 
 The actual Arducam2640 package can be placed into the working directory or added to path and then regularly imported.
 
-##Functionality
+
+## Functionality
 
 ### Camera Functions
 - Capture images
