@@ -22,6 +22,7 @@ The application can:
 - Take JPEG images (different resolutions)
 - Take YUV images (fixed resolution 96x96)
 - Change Arducam settings
+- Save and load images
 
 Existing code adapted from the project of the [Arducam][arducam main] main GitHub repo.
 The main Pico code stems from the [PICO_SPI_CAM][arducam base] Example. 
@@ -70,6 +71,7 @@ The actual Arducam2640 package can be placed into the working directory or added
 - convert byte array to JPEG
 - convert byte array to YUV (YUV422, with pattern 'YUYV')
 - convert YUV pixel to RGB pixel
+- load images
 
 ## Usage
 
