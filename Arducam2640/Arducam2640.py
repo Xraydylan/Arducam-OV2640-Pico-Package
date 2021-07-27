@@ -1,7 +1,8 @@
+import os
 from serial import Serial
 import time
 import numpy as np
-import PIL.Image as Image
+from PIL import Image, JpegImagePlugin
 import io
 
 # Default Serial settings
@@ -83,6 +84,8 @@ BW = 4
 Negative = 5
 BWnegative = 6
 Normal = 7
+
+
 # Sepia = 8
 # Overexposure = 9
 # Solarize = 10
@@ -92,7 +95,19 @@ Normal = 7
 
 # Use Arducam Class
 class Arducam:
-    def __init__(self, port=None, baudrate=None, timeout=None, image_type=None, conversion_size=None):
+    def __init__(self, port=None, baudrate=None, timeout=None, image_type=None, conversion_size=None, save_dir=None):
+        '''
+        Arducam class
+
+        :param port: Serial Port
+        :param baudrate: Baudrate for serial connection
+        :param timeout: Timeout for serial connection (for pyserial timeout)
+        :param image_type: integer for to select type
+                0: YUV
+                1: JPEG
+        :param conversion_size: Size for YUV resolution
+        :param save_dir: Directory for saving images
+        '''
         if port is None:
             port = PORT
         if baudrate is None:
@@ -103,14 +118,22 @@ class Arducam:
             image_type = YUV
         if conversion_size is None:
             conversion_size = YUV_SIZE
+        if save_dir is None:
+            save_dir = "saves/"
 
         self.image_type = YUV
         self.conversion_size = conversion_size
+        self.save_dir = None
 
         self.ser = SerialCommunicator(port=port, baudrate=baudrate, timeout=timeout)
 
+        self.change_save_dir(save_dir)
         self.check_connection()
         self.set_image_type(image_type)
+
+    def _check_save_dir_exist(self):
+        if not os.path.exists(self.save_dir):
+            os.makedirs(self.save_dir)
 
     def set_image_type(self, image_type):
         '''
@@ -279,13 +302,18 @@ class Arducam:
         elif effect == Normal:
             self.ser.sender(b"\x87")
 
-    def capture_frame(self, raw=False, resize_YUV=True, YUV_to_RGB=False):
+    def capture_frame(self, raw=False, resize_YUV=True, YUV_to_RGB=False, save_name=None):
         '''
         Takes an image with Arducam according to settings.
 
         :param raw: if set returns the raw bytearray
         :param resize_YUV: resize YUV according to conversion_size
         :param YUV_to_RGB: if set returns image RGB image from YUV
+        :param save_name: if save name is a string then the return value of capture_frame will be saved.
+                    the defaults are:
+                        .txt for byte array
+                        .npy for numpy arrays
+                        .jpeg for images
         :return:    for a JPEG returns image object
                     for a YUV returns array of pixels (resized to conversion_size if resize_YUV set True)
                         or an RGB image object if YUV_to_RGB set True
@@ -294,8 +322,12 @@ class Arducam:
         self.ser.sender(b"\x10")
         byte_array = self.ser.get_data()
         if raw:
+            if save_name is not None:
+                self.save(byte_array, save_name)
             return byte_array
         image = self.convert_to_image(byte_array, resize_YUV=resize_YUV, YUV_to_RGB=YUV_to_RGB)
+        if save_name is not None:
+            self.save(image, save_name)
         return image
 
     def convert_to_image(self, byte_array, image_type=None, resize_YUV=True, YUV_to_RGB=False):
@@ -313,10 +345,12 @@ class Arducam:
         if image_type is None:
             image_type = self.image_type
 
+        img = None
         if image_type == YUV:
-            return self.convert_to_YUV(byte_array, resize=resize_YUV, YUV_to_RGB=YUV_to_RGB)
+            img = self.convert_to_YUV(byte_array, resize=resize_YUV, YUV_to_RGB=YUV_to_RGB)
         elif image_type == JPEG:
-            return self.convert_to_JPEG(byte_array)
+            img = self.convert_to_JPEG(byte_array)
+        return img
 
     def convert_to_JPEG(self, byte_array):
         '''
@@ -384,6 +418,76 @@ class Arducam:
             raise Exception("No Pico Connected or Pico not working")
         print("Connection Established")
 
+    def change_save_dir(self, directory):
+        '''
+        Changes name of save dictionary
+
+        :param directory: name of dictionary
+        '''
+        if directory[-1] != "/":
+            directory += "/"
+        self.save_dir = directory
+
+    def save(self, data, name):
+        '''
+        Saves data according to type
+
+        :param data: data
+        :param name: name of file. Extension may be modified.
+        :return:
+        '''
+        self._check_save_dir_exist()
+        pil_image_types = [Image.Image, JpegImagePlugin.JpegImageFile]
+
+        if type(data) == np.narray:
+            if len(elem := name.split(".")) != 1:
+                name = ".".join(elem[:-1])
+            path = self.save_dir + name
+            np.save(path, data)
+
+        elif type(data) in pil_image_types:
+            if len(name.split(".")) == 1:
+                name += ".jpg"
+            path = self.save_dir + name
+            data.save(path)
+
+        elif type(data) == bytes:
+            if len(name.split(".")) == 1:
+                name += ".txt"
+            path = self.save_dir + name
+            with open(path, "wb") as f:
+                f.write(data)
+
+
+
+
+    def load(self, name, in_save_dir=True):
+        '''
+        Loads data according to file extension
+
+        :param name: name of file
+        :param in_save_dir: flag if file is located in the save_dir (automatically adds path to save_dir)
+        :return: loaded data according to file extension
+        '''
+
+        path = name
+        if in_save_dir:
+            path = self.save_dir + name
+
+        split = name.split(".")
+        if len(split) == 1:
+            extension = ".npy"
+            path += ".npy"
+            split.append(extension)
+
+        if split[-1] == ".npy":
+            return np.load(path)
+
+        if split[-1] == ".txt":
+            with open(path, "rb") as f:
+                return f.read()
+
+        return Image.open(path)
 
 
 class SerialCommunicator:
@@ -443,13 +547,13 @@ class SerialCommunicator:
             if byte == self.confirmation_byte:
                 return True
         return False
-        
 
 
 def byte_to_int(byte):
     if type(byte) == int:
         return byte
     return int.from_bytes(byte, byteorder='big')
+
 
 def limit_value(value):
     if value > 255:
