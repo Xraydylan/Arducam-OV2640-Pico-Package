@@ -439,7 +439,7 @@ class Arducam:
         self._check_save_dir_exist()
         pil_image_types = [Image.Image, JpegImagePlugin.JpegImageFile]
 
-        if type(data) == np.narray:
+        if type(data) == np.ndarrray:
             if len(elem := name.split(".")) != 1:
                 name = ".".join(elem[:-1])
             path = self.save_dir + name
