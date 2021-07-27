@@ -589,26 +589,21 @@ class ArducamClass(object):
             print("Mode is YUV. [set_JPEG_size] not possible. Please init Camera with mode=JPEG")
             return
 
-        # Note: For compression 1-4 order of hex values reversed; why?
-        if compression == Compression_1:
-            self.wrSensorReg8_8(0xff, 0x00)
-            self.wrSensorReg8_8(0x44, 0xcc)
-            #self.wrSensorReg8_8(0x44, 0x33)
-        elif compression == Compression_2:
-            self.wrSensorReg8_8(0xff, 0x00)
-            self.wrSensorReg8_8(0x44, 0x99)
-            #self.wrSensorReg8_8(0x44, 0x66)
-        elif compression == Compression_3:
-            self.wrSensorReg8_8(0xff, 0x00)
-            self.wrSensorReg8_8(0x44, 0x66)
-            #self.wrSensorReg8_8(0x44, 0x99)
-        elif compression == Compression_4:
-            self.wrSensorReg8_8(0xff, 0x00)
-            #self.wrSensorReg8_8(0x44, 0xcc)
-
-        elif compression == Compression_Off:
+        if compression == Compression_Off:
             self.wrSensorReg8_8(0xff, 0x00)
             self.wrSensorReg8_8(0x44, 0x00)
+        elif compression == Compression_1:
+            self.wrSensorReg8_8(0xff, 0x00)
+            self.wrSensorReg8_8(0x44, 0x33)
+        elif compression == Compression_2:
+            self.wrSensorReg8_8(0xff, 0x00)
+            self.wrSensorReg8_8(0x44, 0x66)
+        elif compression == Compression_3:
+            self.wrSensorReg8_8(0xff, 0x00)
+            self.wrSensorReg8_8(0x44, 0x99)
+        elif compression == Compression_4:
+            self.wrSensorReg8_8(0xff, 0x00)
+            self.wrSensorReg8_8(0x44, 0xcc)
         elif compression == Compression_Full:
             self.wrSensorReg8_8(0xff, 0x00)
             self.wrSensorReg8_8(0x44, 0xff)
