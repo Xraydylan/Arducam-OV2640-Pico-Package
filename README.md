@@ -74,8 +74,33 @@ The actual Arducam2640 package can be placed into the working directory or added
 - load images
 
 ## Usage
+In this section the usage of the package is presented.
 
+First import the package
+``` Python
+import Arducam2640 as Cam
+```
 
+Create the Arducam2640 object. Look at comments for information about additional parameters, which can be adjusted.
+It is recommended to go with the default settings. (In most cases only the port and the image_type need to be changed)
+``` Python
+ard = Cam.Arducam(image_type=Cam.JPEG)
+```
+Taking singular images requires just the following command:
+``` Python
+img = ard.capture_frame()
+```
+By default, an image object is returned.
+
+As an example, to change the resolution (only JPEG) use:
+``` Python
+ard.set_resolution_JPEG(Cam.OV2640_640x480)
+```
+The different available resolutions can be found in the `Arducam2640.py` file.
+
+The command for changing compression, light mode, saturation, brightness, contrast, special effect work similarly.
+
+Please, check out the `Arducam2640.py` with the respective comments for further information.
 
 
 ## License

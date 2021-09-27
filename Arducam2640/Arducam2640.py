@@ -302,7 +302,7 @@ class Arducam:
         elif effect == Normal:
             self.ser.sender(b"\x87")
 
-    def capture_frame(self, raw=False, resize_YUV=True, YUV_to_RGB=False, save_name=None):
+    def capture_frame(self, raw=False, resize_YUV=True, YUV_to_RGB=True, save_name=None):
         '''
         Takes an image with Arducam according to settings.
 
@@ -330,7 +330,7 @@ class Arducam:
             self.save(image, save_name)
         return image
 
-    def convert_to_image(self, byte_array, image_type=None, resize_YUV=True, YUV_to_RGB=False):
+    def convert_to_image(self, byte_array, image_type=None, resize_YUV=True, YUV_to_RGB=True):
         '''
         Converts bytearray to image.
 
@@ -361,7 +361,7 @@ class Arducam:
         '''
         return Image.open(io.BytesIO(byte_array))
 
-    def convert_to_YUV(self, byte_array, resize=True, YUV_to_RGB=False):
+    def convert_to_YUV(self, byte_array, resize=True, YUV_to_RGB=True):
         '''
         Converts byte_array to YUV pixel array according to conversion_size if resize.
 
