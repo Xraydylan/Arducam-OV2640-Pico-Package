@@ -12,7 +12,7 @@ This is a Software package for the Rasperry Pi Pico and Arducam OV2640 to take p
 ## Description
 This package is supposed to be a simple solution for taking pictures with the Arducam OV2640 connected to a Raspberry Pi Pico and sending the images to a PC with a Serial connection.
 
-The Raspberry Pi Pico runs on MicroPython and on PC the included Arducam2640 python package can be used to control the functionality of the Arducam.
+The Raspberry Pi Pico runs on CircuitPython and on PC the included Arducam2640 python package can be used to control the functionality of the Arducam.
 
 Included are:
 - Raspberry Pi Pico Code
