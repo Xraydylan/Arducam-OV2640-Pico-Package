@@ -1,5 +1,5 @@
 # Code for the Raspberry Pico
-Existing code adapted from the project of the [Arducam][arducam main] main GitHub repo.
+Existing code adapted from the project of the [Arducam][arducam base] main GitHub repo.
 The main Pico code stems from the [PICO_SPI_CAM][arducam base] Example. 
 Capability for YUV was adapted from the [PICO Arducam][arducam YUV] Example.
 
