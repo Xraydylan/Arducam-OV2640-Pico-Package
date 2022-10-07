@@ -36,7 +36,7 @@ In the future following can be integrated:
 - Support for Arducam OV5642
 
 ## Installation
-For the setup of the Raspberry Pi Pico follow the instructions in the [REAM.me][Pico readme] in the Pico folder.
+For the setup of the Raspberry Pi Pico follow the instructions in the [README][Pico readme] in the Pico folder.
 
 The actual Arducam2640 package can be placed into the working directory or added to path and then regularly imported.
 
